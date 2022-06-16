@@ -1,0 +1,22 @@
+INFO:root:Names : <function get_names at 0x000001EFCE583E20>
+INFO:root:Motors, mileages : <function get_motor at 0x000001EFE07851B0>
+INFO:root:Names : <function get_names at 0x0000016EE8753E20>
+INFO:root:Motors, mileages : <function get_motor at 0x0000016EFA985240>
+INFO:root:Names : <function get_names at 0x0000015DFCC8F9A0>
+INFO:root:Motors, mileages : <function get_motor at 0x0000015E02789870>
+INFO:root:prices : <function get_prices at 0x0000015E027892D0>
+INFO:root:Names : <function get_names at 0x000002A6FFECF9A0>
+INFO:root:Motors, mileages : <function get_motor at 0x000002A711B8D5A0>
+INFO:root:prices : <function get_prices at 0x000002A711B8D2D0>
+INFO:root:Names : <function get_names at 0x0000022EAC663E20>
+INFO:root:Motors, mileages : <function get_motor at 0x0000022EBE1B9750>
+INFO:root:prices : <function get_prices at 0x0000022EBE1B92D0>
+INFO:root:Names : <function get_names at 0x000002226C8BD360>
+INFO:root:Motors, mileages : <function get_motor at 0x000002226C8BD870>
+INFO:root:prices : <function get_prices at 0x000002226C8BD7E0>
+INFO:root:Names : <function get_names at 0x0000013A870377F0>
+INFO:root:Motors, mileages : <function get_motor at 0x0000013A870B9630>
+INFO:root:prices : <function get_prices at 0x0000013A870B9510>
+INFO:root:Names : <function get_names at 0x000001A150F377F0>
+INFO:root:Mileages : <function get_motor at 0x000001A150FBD870>
+INFO:root:prices : <function get_prices at 0x000001A150FBD510>

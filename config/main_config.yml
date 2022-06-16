@@ -1,0 +1,10 @@
+{
+  main_log_level: INFO,
+  port: 443
+  delay_between_reqs_s: 40
+  urls: [
+    {url: https://longo.lt/katalogas, selector: //*[@class=v-card-item__title]},
+    {url: https://longo.lt/katalogas, selector: //*[@class=v-card-item__price-value]}
+    {url: https://longo.lt/katalogas, selector: //*[@class=v-card-item__details]}
+  ]
+}
