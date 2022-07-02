@@ -14,99 +14,112 @@ headers = ({'User-Agent':                                                       
                 '537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'})           # with no blocks.
 
 
+page = 1
 
-base_url = "https://longo.lt/katalogas"
+while page != 3:
+    base_url = f"https://longo.lt/katalogas?search=&pageSize=24&currentPage={page}"
+
 
 
 # print(response)
 
-def get_random_ua():
-    random_ua = ''
-    ua_file = 'ua_file.txt'
-    try:
-        with open(ua_file) as f:
-            lines = f.readlines()
-        if len(lines) > 0:
-            prng = np.random.RandomState()
-            index = prng.permutation(len(lines) - 1)
-            idx = np.asarray(index, dtype=np.integer)[0]
-            random_proxy = lines[int(idx)]
-    except Exception as ex:
-        print('Exception in random_ua')
-        print(str(ex))
-    finally:
-        return random_ua
+    def get_random_ua():
+        random_ua = ''
+        ua_file = 'ua_file.txt'
+        try:
+            with open(ua_file) as f:
+                lines = f.readlines()
+            if len(lines) > 0:
+                prng = np.random.RandomState()
+                index = prng.permutation(len(lines) - 1)
+                idx = np.asarray(index, dtype=np.integer)[0]
+                random_proxy = lines[int(idx)]
+        except Exception as ex:
+            print('Exception in random_ua')
+            print(str(ex))
+        finally:
+            return random_ua
 
 
-user_agent = get_random_ua()
-headers = {
-    'user-agent': user_agent,
-}
-response = requests.get(base_url, headers=headers)
+    user_agent = get_random_ua()
+    headers = {
+        'user-agent': user_agent,
+    }
 
-html_soup = soup(response.text, 'html.parser')
+    response = requests.get(base_url, headers=headers)
 
-content_list = html_soup.find_all('div', attrs={'class': 'col-6 col-md-4'})
+
+
+    html_soup = soup(response.text, 'html.parser')
+
+    content_list = html_soup.find_all('div', attrs={'class': 'col-6 col-md-4'})
 # print(content_list)
 
-delays = [7, 4, 6, 2, 10, 19]
-delay = np.random.choice(delays)
-time.sleep(1.5)
+    delays = [7, 4, 6, 2, 10, 19]
+    delay = np.random.choice(delays)
+    time.sleep(1.5)
 
-basic_info = []
-for item in content_list:
-    basic_info.append(item.find_all('div', attrs={'class': 'v-card-item__content'}))           # getting page content
+    basic_info = []
+    for item in content_list:
+        basic_info.append(item.find_all('div', attrs={'class': 'v-card-item__content'}))           # getting page content
 # print(basic_info)
 
 
-time.sleep(1.5)
+    time.sleep(1.5)
 
 
-def get_names(basic_info):                                                                     # getting car names
-    names = []
-    for item in basic_info:
-        for i in item:
-            names.append(i.find_all('div', attrs={'class': 'v-card-item__title'})[0].text.strip())
-    return names
+    def get_names(basic_info):                                                                     # getting car names
+        names = []
+        for item in basic_info:
+            for i in item:
+                names.append(i.find_all('div', attrs={'class': 'v-card-item__title'})[0].text.strip())
+        return names
 
 
-names = get_names(basic_info)
+    names = get_names(basic_info)
 
-time.sleep(1.5)
-
-
-def get_prices(basic_info):                                                                     # getting car prices.
-   prices = []
-   for item in basic_info:
-       for i in item:
-           prices.append(
-               i.find_all('span', attrs={"class": "v-card-item__price-value"})[1].string.replace(u'\xa0', u' ').strip())
-   return prices
+    time.sleep(1.5)
 
 
-prices = get_prices(basic_info)
-time.sleep(1.5)
+    def get_prices(basic_info):                                                                     # getting car prices.
+        prices = []
+        for item in basic_info:
+            for i in item:
+                prices.append(
+                    i.find_all('span', attrs={"class": "v-card-item__price-value"})[1].string.replace(u'\xa0', u' ').strip())
+        return prices
 
 
-def get_motor(basic_info):                                                           # getting car motor information.
-    mileages = []
-    for item in basic_info:
-        for i in item:
-            mileages.append(i.find('div', attrs={"class": "chip"}).string)
-    return mileages
+    prices = get_prices(basic_info)
+    time.sleep(1.5)
 
 
-mileages = get_motor(basic_info)
+    def get_motor(basic_info):                                                           # getting car motor information.
+        mileages = []
+        for item in basic_info:
+            for i in item:
+                mileages.append(i.find('div', attrs={"class": "chip"}).string)
+        return mileages
 
-time.sleep(1.5)
 
-data = pd.DataFrame({"Name": names,                                                        # Framing data
-                     "Mileages": mileages,
-                     "Price": prices})
-data.head()
-data.drop_duplicates()
+    mileages = get_motor(basic_info)
 
-data.to_excel('Car_list.xls')                                                               # Putting data to exel file
+
+    time.sleep(1.5)
+
+    data = pd.DataFrame({"Name": names,                                                        # Framing data
+                        "Mileages": mileages,
+                        "Price": prices})
+    data.head()
+    data.drop_duplicates()
+
+    print(data)
+    data.to_excel('Car_list.xls')                                                         # Putting data to exel file
+
+    page = page + 1
+
+
+
 
 logging.info('{} : {}'.format('Names', get_names))                                          # logging information
 logging.info('{} : {}'.format('Mileages', get_motor))
